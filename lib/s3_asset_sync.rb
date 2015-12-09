@@ -114,8 +114,8 @@ module S3AssetSync
         content_encoding: "gzip"
       )
     end
-    resp = client.put_object(file)
-    puts resp
+
+    client.put_object(file)
   end
 
   ##
