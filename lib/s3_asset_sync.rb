@@ -1,6 +1,6 @@
-require 'colorize'
-require 'aws-sdk-core'
-require 's3_asset_sync/railtie' if defined?(Rails)
+require "colorize"
+require "aws-sdk-core"
+require "s3_asset_sync/railtie" if defined?(Rails)
 
 module S3AssetSync
 
@@ -11,17 +11,9 @@ module S3AssetSync
   def self.sync
     puts "Syncing assets to S3...".yellow
 
-    Aws.config.update({
-      credentials: Aws::Credentials.new(
-        Rails.application.config.s3_asset_sync.s3_access_key,
-        Rails.application.config.s3_asset_sync.s3_secret_access_key
-      ),
-      region: Rails.application.config.s3_asset_sync.s3_region
-    })
+    s3 = Aws::S3::Client.new(region: Rails.application.config.s3_asset_sync.s3_region)
 
-    s3 = Aws::S3::Client.new
-
-    self.sync_directory(s3, '')
+    self.sync_directory(s3, "")
 
     puts "Asset sync successfully completed...".green
   end
@@ -35,7 +27,7 @@ module S3AssetSync
       file_path = File.join(path,file)
       file_key = File.join(Rails.application.config.assets.prefix, path,file)[1..-1]
       full_file_path = "#{assets_dir}#{path}/#{file}"
-      
+
       if File.file?(full_file_path)
         puts "SYNC: #{file_path}"
         self.s3_upload_object(s3, file_key) unless self.s3_object_exists?(s3, file_key)
@@ -72,7 +64,7 @@ module S3AssetSync
     keys.each do |key|
       fn = File.join(Rails.public_path, key)
       if !File.exists?(fn)
-        self.s3_delete_object(s3, key) 
+        self.s3_delete_object(s3, key)
         puts "DELETED: #{key}"
       end
     end
