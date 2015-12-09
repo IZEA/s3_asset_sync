@@ -102,7 +102,7 @@ module S3AssetSync
 
     # ported from rumblelabs/asset_sync repository
     one_year = 31_557_600
-    if /-[0-9a-fA-F]{32}$/.match(File.basename(key, File.extname(key)))
+    if /-[0-9a-fA-F]{32,64}$/.match(File.basename(key, File.extname(key)))
       file.merge!(
         cache_control: "public, max-age=#{one_year}",
         expires: CGI.rfc1123_date(Time.now + one_year)
