@@ -13,7 +13,7 @@ end
 if Rake::Task.task_defined?("assets:precompile")
   Rake::Task["assets:precompile"].enhance do
     if defined?(Rails) && Rails.application.config.s3_asset_sync.run_after_precompile
-      Rake::Task["assets:sync_to_s3"].enhance(["ckeditor:nondigest"])
+      Rake::Task["assets:sync_to_s3"].enhance(Rails.application.config.s3_asset_sync.rake_task_prereqs)
       Rake::Task["assets:sync_to_s3"].invoke
     end
   end

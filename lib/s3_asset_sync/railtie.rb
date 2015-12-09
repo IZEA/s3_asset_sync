@@ -3,6 +3,7 @@ module S3AssetSync
     config.s3_asset_sync = ActiveSupport::OrderedOptions.new
 
     config.s3_asset_sync.run_after_precompile = true
+    config.s3_asset_sync.rake_task_prereqs = []
     config.s3_asset_sync.s3_bucket = "YOUR_BUCKET_NAME"
     config.s3_asset_sync.endpoint = "YOUR_END_POINT"
 
