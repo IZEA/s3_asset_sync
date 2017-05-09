@@ -1,3 +1,5 @@
+require 'rails/railtie'
+
 module S3AssetSync
   class Railtie < Rails::Railtie
     config.s3_asset_sync = ActiveSupport::OrderedOptions.new
@@ -7,6 +9,18 @@ module S3AssetSync
     config.s3_asset_sync.gzip_compression = false
     config.s3_asset_sync.s3_bucket = "YOUR_BUCKET_NAME"
     config.s3_asset_sync.endpoint = "YOUR_END_POINT"
+    config.s3_asset_sync.s3_region = "us-east-1"
+
+
+    config.after_initialize do
+      S3AssetSync.config do |cfg|
+        cfg.rails_public_path = Rails.public_path
+        cfg.asset_prefix = Rails.application.config.assets.prefix
+        cfg.gzip_compression = Rails.application.config.s3_asset_sync.gzip_compression
+        cfg.s3_bucket = Rails.application.config.s3_asset_sync.s3_bucket
+        cfg.aws_region = Rails.application.config.s3_asset_sync.s3_region
+      end
+    end
 
     rake_tasks do
       load "tasks/s3_asset_sync.rake"

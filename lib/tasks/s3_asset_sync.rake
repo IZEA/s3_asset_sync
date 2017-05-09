@@ -8,6 +8,12 @@ namespace :assets do
   task purge_s3: :environment do
     S3AssetSync.purge
   end
+
+  desc "Show asset_sync_config"
+  task sync_config: :environment do
+    puts S3AssetSync.config.s3_bucket
+    puts S3AssetSync.config.aws_region
+  end
 end
 
 if Rake::Task.task_defined?("assets:precompile")

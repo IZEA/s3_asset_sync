@@ -1,9 +1,7 @@
 $:.push File.expand_path("../lib", __FILE__)
 
-# Maintain your gem's version:
 require "s3_asset_sync/version"
 
-# Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "s3_asset_sync"
   s.version     = S3AssetSync::VERSION
@@ -18,5 +16,13 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'rails', '>= 4.0'
   s.add_dependency 'colorize'
-  s.add_dependency 'aws-sdk', '~> 2'
+  s.add_dependency 'aws-sdk', '~> 2.9.15'
+  s.add_dependency 'celluloid', '>= 0.18.0.pre'
+  s.add_dependency 'celluloid-io'
+  s.add_dependency 'mime-types', '~> 2.99'
+
+  s.add_development_dependency 'combustion', '~> 0.6.0'
+  s.add_development_dependency 'autotest-standalone'
+  s.add_development_dependency 'rspec-rails'
+  s.add_development_dependency 'mocha'
 end
